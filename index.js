@@ -14,6 +14,7 @@ const parsePemKey = (value) => {
 // Set configured values
 const appId = process.env.APP_ID
 const privateKey = parsePemKey(process.env.PRIVATE_KEY)
+console.log(privateKey);
 const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
 const messageForNewPRs = "This is a sample comment by GH Pull Request Commenter (Team Zenkoders)"
