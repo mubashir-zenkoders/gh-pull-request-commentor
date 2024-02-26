@@ -1,6 +1,6 @@
-# Sample GitHub App
+# GH Pull Request Commentor App
 
-This sample app showcases how webhooks can be used with a GitHub App's installation token to create a bot that responds to issues. Code uses [octokit.js](https://github.com/octokit/octokit.js).
+This app is based on webhooks that can be used with a GitHub App's installation token to create a bot that responds to issues. Code uses [octokit.js](https://github.com/octokit/octokit.js).
 
 ## Requirements
 
@@ -30,14 +30,3 @@ the corresponding Webhook [payload](https://docs.github.com/webhooks-and-events/
 The server in this example listens for `pull_request.opened` events and acts on
 them by creating a comment on the pull request, with the message in `message.md`,
 using the [octokit.js rest methods](https://github.com/octokit/octokit.js#octokitrest-endpoint-methods).
-
-## Security considerations
-
-To keep things simple, this example reads the `GITHUB_APP_PRIVATE_KEY` from the
-environment. A more secure and recommended approach is to use a secrets management system
-like [Vault](https://www.vaultproject.io/use-cases/key-management), or one offered
-by major cloud providers:
-[Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/secrets/quick-create-node?tabs=windows),
-[AWS Secrets Manager](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-secrets-manager/),
-[Google Secret Manager](https://cloud.google.com/nodejs/docs/reference/secret-manager/latest),
-etc.
