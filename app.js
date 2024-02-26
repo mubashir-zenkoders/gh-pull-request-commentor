@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import http from 'http'
+import fs from 'fs'
 import { Octokit, App } from 'octokit'
 import { createNodeMiddleware } from '@octokit/webhooks'
 
@@ -8,7 +9,9 @@ dotenv.config()
 
 // Set configured values
 const appId = process.env.APP_ID
-const privateKey = process.env.PRIVATE_KEY
+const privateKeyPath = process.env.PRIVATE_KEY_PATH
+const privateKey = fs.readFileSync(privateKeyPath, 'utf-8')
+console.log('privateKey', privateKey);
 const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
 const messageForNewPRs = "This is a sample comment by GH Pull Request Commenter (Team Zenkoders)"
@@ -70,7 +73,16 @@ const localWebhookUrl = `http://localhost:${port}${path}`
 // See https://github.com/octokit/webhooks.js/#createnodemiddleware for all options
 const middleware = createNodeMiddleware(app.webhooks, { path })
 
-http.createServer(middleware).listen(port, () => {
+http.createServer((req, res) => {
+  if (req.url?.startsWith(path)) {
+    middleware(req, res).catch(console.error)
+  } else if (req.url === '/') {
+    res.end(`Welcome to the home page of gh pr commenter!`)
+  } else {
+    res.writeHead(404)
+    res.end('Not Found')
+  }
+}).listen(port, () => {
   console.log(`Server is listening for events at: ${localWebhookUrl}`)
   console.log('Press Ctrl + C to quit.')
 })
