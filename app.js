@@ -1,17 +1,19 @@
 import dotenv from 'dotenv'
 import http from 'http'
-import fs from 'fs'
 import { Octokit, App } from 'octokit'
 import { createNodeMiddleware } from '@octokit/webhooks'
 
 // Load environment variables from .env file
 dotenv.config()
 
+const parsePemKey = (value) => {
+  const rawValue = value.replaceAll('$123', '\n')
+  return rawValue;
+}
+
 // Set configured values
 const appId = process.env.APP_ID
-const privateKeyPath = process.env.PRIVATE_KEY_PATH
-const privateKey = fs.readFileSync(privateKeyPath, 'utf-8')
-console.log('privateKey', privateKey);
+const privateKey = parsePemKey(process.env.PRIVATE_KEY)
 const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
 const messageForNewPRs = "This is a sample comment by GH Pull Request Commenter (Team Zenkoders)"
