@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-import fs from 'fs'
 import http from 'http'
 import { Octokit, App } from 'octokit'
 import { createNodeMiddleware } from '@octokit/webhooks'
@@ -9,11 +8,10 @@ dotenv.config()
 
 // Set configured values
 const appId = process.env.APP_ID
-const privateKeyPath = process.env.PRIVATE_KEY_PATH
-const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
+const privateKey = process.env.PRIVATE_KEY
 const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
-const messageForNewPRs = "This is a sample comment by GH Pull Request Commentor (Team Zenkoders)"
+const messageForNewPRs = "This is a sample comment by GH Pull Request Commenter (Team Zenkoders)"
 
 // Create an authenticated Octokit client authenticated as a GitHub App
 const app = new App({
